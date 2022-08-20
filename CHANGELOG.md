@@ -8,3 +8,7 @@
 # 1.0.2
 * Added example.
 
+# 1.0.3
+* Added search functionality.
+* Bug fixes.
+

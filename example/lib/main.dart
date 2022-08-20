@@ -40,7 +40,7 @@ class MyHomePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: Center(
-            child: MultiSelectDropDown(
+            child: MultiSelectDropDown.search(
           onOptionSelected: (List<ValueItem> selectedOptions) {},
           options: const <ValueItem>[
             ValueItem(label: 'Option 1', value: '1'),
@@ -51,7 +51,7 @@ class MyHomePage extends StatelessWidget {
             ValueItem(label: 'Option 6', value: '6'),
           ],
           selectionType: SelectionType.multi,
-          chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+          chipConfig: const ChipConfig(wrapType: WrapType.scroll),
           dropdownHeight: 300,
           optionTextStyle: const TextStyle(fontSize: 16),
           selectedOptionIcon: const Icon(Icons.check_circle),
