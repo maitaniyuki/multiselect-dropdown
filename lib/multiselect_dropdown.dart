@@ -484,21 +484,33 @@ class _MultiSelectDropDownState extends State<MultiSelectDropDown> {
   /// Get the Content for the dropdown field container.
   Widget _getContainerContent() {
     if (widget.showSearchBox) {
-      return TextField(
-        controller: _searchController,
-        decoration: InputDecoration(
-          hintText: widget.hint,
-          isDense: true,
-          hintStyle: widget.hintStyle,
-          border: InputBorder.none,
+      return SizedBox(
+        height: 48,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (!_selectionMode)
+              _buildSelectedItems(
+                forceScroll: true,
+              ),
+            TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: _selectedOptions.isNotEmpty ? '' : widget.hint,
+                isDense: true,
+                hintStyle: widget.hintStyle,
+                border: InputBorder.none,
+              ),
+              style: TextStyle(
+                color: widget.selectedOptionTextColor ?? Colors.black,
+                fontSize: widget.hintFontSize,
+              ),
+              onChanged: (value) {
+                _searchOptions(value);
+              },
+            ),
+          ],
         ),
-        style: TextStyle(
-          color: widget.selectedOptionTextColor ?? Colors.black,
-          fontSize: widget.hintFontSize,
-        ),
-        onChanged: (value) {
-          _searchOptions(value);
-        },
       );
     }
 
@@ -542,14 +554,13 @@ class _MultiSelectDropDownState extends State<MultiSelectDropDown> {
   }
 
   /// build the selected items according to the wrap type.
-  Widget _buildSelectedItems() {
-    if (widget.chipConfig.wrapType == WrapType.scroll) {
+  Widget _buildSelectedItems({bool forceScroll = false}) {
+    if (forceScroll || widget.chipConfig.wrapType == WrapType.scroll) {
       return ListView.separated(
         separatorBuilder: (context, index) =>
             _getChipSeparator(widget.chipConfig),
         scrollDirection: Axis.horizontal,
         itemCount: _selectedOptions.length,
-        shrinkWrap: true,
         itemBuilder: (context, index) {
           final option = _selectedOptions[index];
           if (widget.selectedItemBuilder != null) {

@@ -37,25 +37,65 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Center(
-            child: MultiSelectDropDown.search(
-          onOptionSelected: (List<ValueItem> selectedOptions) {},
-          options: const <ValueItem>[
-            ValueItem(label: 'Option 1', value: '1'),
-            ValueItem(label: 'Option 2', value: '2'),
-            ValueItem(label: 'Option 3', value: '3'),
-            ValueItem(label: 'Option 4', value: '4'),
-            ValueItem(label: 'Option 5', value: '5'),
-            ValueItem(label: 'Option 6', value: '6'),
-          ],
-          selectionType: SelectionType.multi,
-          chipConfig: const ChipConfig(wrapType: WrapType.scroll),
-          dropdownHeight: 300,
-          optionTextStyle: const TextStyle(fontSize: 16),
-          selectedOptionIcon: const Icon(Icons.check_circle),
-        )),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              MultiSelectDropDown(
+                onOptionSelected: (List<ValueItem> selectedOptions) {},
+                options: const <ValueItem>[
+                  ValueItem(label: 'Option 1', value: '1'),
+                  ValueItem(label: 'Option 2', value: '2'),
+                  ValueItem(label: 'Option 3', value: '3'),
+                  ValueItem(label: 'Option 4', value: '4'),
+                  ValueItem(label: 'Option 5', value: '5'),
+                  ValueItem(label: 'Option 6', value: '6'),
+                ],
+                disabledOptions: const [
+                  ValueItem(label: 'Option 2', value: '2'),
+                ],
+                selectedOptions: const [
+                  ValueItem(label: 'Option 1', value: '1'),
+                  ValueItem(label: 'Option 3', value: '3'),
+                  ValueItem(label: 'Option 5', value: '5'),
+                ],
+                selectionType: SelectionType.multi,
+                chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+                dropdownHeight: 300,
+                optionTextStyle: const TextStyle(fontSize: 16),
+                selectedOptionIcon: const Icon(Icons.check_circle),
+              ),
+              const SizedBox(height: 16),
+              MultiSelectDropDown.search(
+                onOptionSelected: (List<ValueItem> selectedOptions) {},
+                options: const <ValueItem>[
+                  ValueItem(label: 'Option 1', value: '1'),
+                  ValueItem(label: 'Option 2', value: '2'),
+                  ValueItem(label: 'Option 3', value: '3'),
+                  ValueItem(label: 'Option 4', value: '4'),
+                  ValueItem(label: 'Option 5', value: '5'),
+                  ValueItem(label: 'Option 6', value: '6'),
+                ],
+                disabledOptions: const [
+                  ValueItem(label: 'Option 2', value: '2'),
+                ],
+                selectedOptions: const [
+                  ValueItem(label: 'Option 1', value: '1'),
+                  ValueItem(label: 'Option 3', value: '3'),
+                  ValueItem(label: 'Option 5', value: '5'),
+                ],
+                selectionType: SelectionType.multi,
+                chipConfig: const ChipConfig(wrapType: WrapType.scroll),
+                dropdownHeight: 300,
+                optionTextStyle: const TextStyle(fontSize: 16),
+                selectedOptionIcon: const Icon(Icons.check_circle),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        ),
       ),
     );
   }
