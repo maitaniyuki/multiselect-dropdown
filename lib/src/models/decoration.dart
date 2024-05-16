@@ -59,7 +59,7 @@ class DropdownItemDecoration {
     this.disabledTextColor,
     this.selectedIcon = const Icon(Icons.check),
     this.disabledIcon,
-    this.textStyle = const TextStyle(fontSize: 16),
+    this.textStyle,
   });
 
   /// The background color of the dropdown item.
@@ -87,7 +87,7 @@ class DropdownItemDecoration {
   final Icon? disabledIcon;
 
   /// The text style of the dropdown item.
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 }
 
 /// Represents the decoration for the dropdown.
@@ -108,7 +108,7 @@ class DropdownDecoration {
   const DropdownDecoration({
     this.backgroundColor = Colors.white,
     this.elevation = 1,
-    this.height = 300,
+    this.height = 200,
     this.marginTop = 0,
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
   });
@@ -167,7 +167,10 @@ class FieldDecoration {
   const FieldDecoration({
     this.labelText,
     this.hintText = 'Select',
-    this.border,
+    this.border = const OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderSide: BorderSide(color: Colors.grey),
+    ),
     this.focusedBorder,
     this.disabledBorder,
     this.errorBorder,
@@ -179,6 +182,7 @@ class FieldDecoration {
     this.animateSuffixIcon = true,
     this.padding,
     this.backgroundColor,
+    this.suffixIconConstraints,
   });
 
   /// The label text to display above the dropdown field.
@@ -222,6 +226,9 @@ class FieldDecoration {
 
   /// background color of the dropdown field
   final Color? backgroundColor;
+
+  /// constraints for the suffix icon
+  final BoxConstraints? suffixIconConstraints;
 }
 
 /// Configuration class for customizing the appearance of chips in the multi-select dropdown.

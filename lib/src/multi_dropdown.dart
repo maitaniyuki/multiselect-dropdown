@@ -330,7 +330,7 @@ class _MultiDropdownState<T extends Object> extends State<MultiDropdown<T>> {
 
             final availableHeight = MediaQuery.of(context).size.height -
                 renderBoxOffset.dy -
-                renderBoxSize.height +
+                renderBoxSize.height -
                 (widget.searchEnabled ? widget.keyboardHeight : 0);
 
             final showOnTop =
@@ -452,6 +452,7 @@ class _MultiDropdownState<T extends Object> extends State<MultiDropdown<T>> {
       errorBorder: fieldDecoration.errorBorder,
       suffixIcon: _buildSuffixIcon(state),
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      suffixIconConstraints: fieldDecoration.suffixIconConstraints,
     );
   }
 
@@ -556,8 +557,8 @@ class _MultiDropdownState<T extends Object> extends State<MultiDropdown<T>> {
             side: const BorderSide(color: Colors.blue),
           ),
       backgroundColor: widget.enabled
-          ? chipDecoration.backgroundColor
-          : Colors.blue,
+          ? chipDecoration.backgroundColor ?? Colors.blue
+          : Colors.grey.shade100,
       labelStyle: widget.enabled ? chipDecoration.labelStyle : null,
       labelPadding: chipDecoration.labelPadding,
       padding:

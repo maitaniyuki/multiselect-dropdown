@@ -86,8 +86,9 @@ class _Dropdown<T> extends StatelessWidget {
             color: decoration.backgroundColor,
             backgroundBlendMode: BlendMode.dstATop,
           ),
-          constraints: BoxConstraints.loose(
-            Size(width, decoration.height),
+          constraints: BoxConstraints(
+            maxHeight: width,
+            minHeight: decoration.height,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
