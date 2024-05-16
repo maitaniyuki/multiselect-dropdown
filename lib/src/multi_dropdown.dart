@@ -96,6 +96,9 @@ class MultiDropdown<T extends Object> extends StatefulWidget {
     this.selectedItemBuilder,
     this.focusNode,
     this.onSelectionChange,
+    this.needSuffixCloseIcon = false,
+    this.keyboardHeight = 216.0,
+    this.shouldHideOnSelect = false,
     Key? key,
   })  : future = null,
         super(key: key);
@@ -142,6 +145,9 @@ class MultiDropdown<T extends Object> extends StatefulWidget {
     this.selectedItemBuilder,
     this.focusNode,
     this.onSelectionChange,
+    this.needSuffixCloseIcon = false,
+    this.keyboardHeight = 216.0,
+    this.shouldHideOnSelect = false,
     Key? key,
   })  : items = const [],
         super(key: key);
@@ -204,6 +210,15 @@ class MultiDropdown<T extends Object> extends StatefulWidget {
   ///
   /// This callback is called when any item is selected or unselected.
   final OnSelectionChanged<T>? onSelectionChange;
+
+  /// Whether to show the close icon in the suffix.
+  final bool needSuffixCloseIcon;
+
+  /// The height of the keyboard.
+  final double keyboardHeight;
+
+  /// Whether to close the dropdown when an item is selected.
+  final bool shouldHideOnSelect;
 
   @override
   State<MultiDropdown<T>> createState() => _MultiDropdownState<T>();
@@ -315,7 +330,8 @@ class _MultiDropdownState<T extends Object> extends State<MultiDropdown<T>> {
 
             final availableHeight = MediaQuery.of(context).size.height -
                 renderBoxOffset.dy -
-                renderBoxSize.height;
+                renderBoxSize.height +
+                (widget.searchEnabled ? widget.keyboardHeight : 0);
 
             final showOnTop =
                 availableHeight < widget.dropdownDecoration.height;
@@ -400,6 +416,9 @@ class _MultiDropdownState<T extends Object> extends State<MultiDropdown<T>> {
     }
     state.didChange(_dropdownController.selectedItems);
     widget.onSelectionChange?.call(_dropdownController._selectedValues());
+    if(widget.shouldHideOnSelect) {
+      _dropdownController.hide();
+    }
   }
 
   InputDecoration _buildDecoration(FormFieldState<dynamic> state) {
@@ -441,7 +460,7 @@ class _MultiDropdownState<T extends Object> extends State<MultiDropdown<T>> {
       return const CircularProgressIndicator.adaptive();
     }
 
-    if (_dropdownController.selectedItems.isNotEmpty) {
+    if (widget.needSuffixCloseIcon && _dropdownController.selectedItems.isNotEmpty) {
       return GestureDetector(
         child: const Icon(Icons.clear),
         onTap: () {
@@ -523,17 +542,22 @@ class _MultiDropdownState<T extends Object> extends State<MultiDropdown<T>> {
 
   Chip _buildChip(DropdownItem<dynamic> option, ChipDecoration chipDecoration) {
     return Chip(
-      label: Text(option.label),
+      label: Text(option.label, style: const TextStyle(color: Colors.white),),
       onDeleted: () {
         _dropdownController
             .deselectWhere((element) => element.label == option.label);
         widget.onSelectionChange?.call(_dropdownController._selectedValues());
       },
-      deleteIcon: chipDecoration.deleteIcon,
-      shape: chipDecoration.shape,
+      deleteIcon: chipDecoration.deleteIcon ??
+          const Icon(Icons.cancel, color: Colors.white, size: 20),
+      shape: chipDecoration.shape ??
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: const BorderSide(color: Colors.blue),
+          ),
       backgroundColor: widget.enabled
           ? chipDecoration.backgroundColor
-          : Colors.grey.shade100,
+          : Colors.blue,
       labelStyle: widget.enabled ? chipDecoration.labelStyle : null,
       labelPadding: chipDecoration.labelPadding,
       padding:

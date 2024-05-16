@@ -69,6 +69,7 @@ class _Dropdown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final itemsState = ValueNotifier(items);
 
     final child = Material(
       elevation: decoration.elevation,
@@ -94,16 +95,29 @@ class _Dropdown<T> extends StatelessWidget {
               if (searchEnabled)
                 _SearchField(
                   decoration: searchDecoration,
-                  onChanged: _onSearchChange,
+                  onChanged: (value) {
+                    itemsState.value = items
+                        .where(
+                          (element) => element.label
+                              .toLowerCase()
+                              .contains(value.toLowerCase()),
+                        )
+                        .toList();
+                  },
                 ),
-              Flexible(
-                child: ListView.separated(
-                  separatorBuilder: (_, __) =>
-                      itemSeparator ?? const SizedBox.shrink(),
-                  shrinkWrap: true,
-                  itemCount: items.length,
-                  itemBuilder: (_, int index) => _buildOption(index, theme),
-                ),
+              ValueListenableBuilder<List<DropdownItem<T>>>(
+                valueListenable: itemsState,
+                builder: (context, value, child) {
+                  return Flexible(
+                    child: ListView.separated(
+                      separatorBuilder: (_, __) =>
+                          itemSeparator ?? const SizedBox.shrink(),
+                      shrinkWrap: true,
+                      itemCount: value.length,
+                      itemBuilder: (_, int index) => _buildOption(value[index], theme, index),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -118,8 +132,7 @@ class _Dropdown<T> extends StatelessWidget {
     return child;
   }
 
-  Widget _buildOption(int index, ThemeData theme) {
-    final option = items[index];
+  Widget _buildOption(DropdownItem<T> option, ThemeData theme, int index) {
 
     if (itemBuilder != null) {
       return itemBuilder!(option, index);
@@ -142,7 +155,7 @@ class _Dropdown<T> extends StatelessWidget {
 
     return Ink(
       child: ListTile(
-        title: Text(option.label),
+        title: Text(option.label, style: dropdownItemDecoration.textStyle),
         trailing: trailing,
         dense: true,
         autofocus: true,
@@ -166,10 +179,6 @@ class _Dropdown<T> extends StatelessWidget {
         },
       ),
     );
-  }
-
-  void _onSearchChange(String value) {
-    onSearchChange?.call(value);
   }
 
   bool _reachedMaxSelection(DropdownItem<dynamic> option) {

@@ -12,7 +12,7 @@ class SearchFieldDecoration {
   ///
   /// [searchIcon] is the icon to display in the search field. The default value is Icon(Icons.search).
   const SearchFieldDecoration({
-    this.hintText = 'Search',
+    this.hintText = '検索する',
     this.border = const OutlineInputBorder(),
     this.focusedBorder = const OutlineInputBorder(),
     this.searchIcon = const Icon(Icons.search),
@@ -59,6 +59,7 @@ class DropdownItemDecoration {
     this.disabledTextColor,
     this.selectedIcon = const Icon(Icons.check),
     this.disabledIcon,
+    this.textStyle = const TextStyle(fontSize: 16),
   });
 
   /// The background color of the dropdown item.
@@ -84,6 +85,9 @@ class DropdownItemDecoration {
 
   /// The icon to display for the disabled dropdown item.
   final Icon? disabledIcon;
+
+  /// The text style of the dropdown item.
+  final TextStyle textStyle;
 }
 
 /// Represents the decoration for the dropdown.
@@ -170,7 +174,7 @@ class FieldDecoration {
     this.suffixIcon = const Icon(Icons.arrow_drop_down),
     this.prefixIcon,
     this.labelStyle,
-    this.borderRadius = 12,
+    this.borderRadius = 8,
     this.hintStyle,
     this.animateSuffixIcon = true,
     this.padding,
@@ -256,7 +260,7 @@ class ChipDecoration {
     this.labelStyle,
     this.labelPadding = EdgeInsets.zero,
     this.borderSide,
-    this.wrap = true,
+    this.wrap = false,
   });
 
   /// The icon to display for deleting a chip.
